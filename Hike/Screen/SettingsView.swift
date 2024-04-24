@@ -8,8 +8,15 @@
 import SwiftUI
 
 struct SettingsView: View {
+    private let alternateAppIcons: [String] = [
+    "AppIcon-MagnifyingGlass",
+    "AppIcon-Map",
+    "AppIcon-Mushroom",
+    "AppIcon-Camera",
+    "AppIcon-Backpack",
+    "AppIcon-Campfire"
+    ]
     var body: some View {
-
         List{
             Section {
                 HStack(alignment: .center){
@@ -54,6 +61,36 @@ struct SettingsView: View {
             }
             .listRowSeparator(.hidden)
             
+            Section(
+                header: Text("Alternate Icons")
+            ){
+                VStack {
+                    ScrollView(.horizontal, showsIndicators: false){
+                        HStack(spacing: 12) {
+                            ForEach(alternateAppIcons.indices, id: \.self) { item in
+                                Button{
+                                   print("pressed")
+                                    UIApplication.shared.setAlternateIconName(alternateAppIcons[item])
+                                }label: {
+                                    Image(alternateAppIcons[item] + "-Preview")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 80, height: 80)
+                                        .cornerRadius(16)
+                                }
+                            .buttonStyle(.borderless)
+                            }
+                        }.padding(.bottom, 12)
+                    }.padding(.top, 12)
+                    Text("Choose your favorite App Icons from the collection above.")
+                        .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, maxWidth: .infinity)
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.secondary)
+                    .font(.footnote)
+                    .padding(.bottom, 12)
+                }
+            }
+            .listRowSeparator(.hidden)
             Section(
                 header: Text("ABOUT THE APP"),
                 footer: HStack{
